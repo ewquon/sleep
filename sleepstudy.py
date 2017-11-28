@@ -7,19 +7,20 @@
 #
 import datetime
 
+curstate = 'STOPPED'
 curtime = datetime.datetime.now()
 dtstr = curtime.strftime('%Y%m%d_%H%M%S')
-
 with open('log.sleep.'+dtstr,'a') as f:
     while True:
-        state = input('state (o/x)? ')
         tstr = str(datetime.datetime.now())
+        state = input(f'{curstate} at {tstr} >>> Start/stop [o/x]? ')
+        state = state.strip().lower()
         if state.strip().startswith('o'):
-            print(f'STARTED at {tstr}')
+            curstate = 'STARTED'
             f.write(f'"{tstr}" 0\n')
             f.write(f'"{tstr}" 1\n')
         elif state.strip().startswith('x'):
-            print(f'...STOPPED at {tstr}')
+            curstate = 'Stopped'
             f.write(f'"{tstr}" 1\n')
             f.write(f'"{tstr}" 0\n')
 
